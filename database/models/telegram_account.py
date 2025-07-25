@@ -1,7 +1,7 @@
 from datetime import datetime, UTC
 from typing import List, TYPE_CHECKING
 
-from sqlalchemy import String, DateTime, Boolean
+from sqlalchemy import String, DateTime, Boolean, BigInteger
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from database.models import Base
@@ -16,7 +16,7 @@ class TelegramAccount(Base):
     username: Mapped[str | None] = mapped_column(String, nullable=True)
 
     connection_id: Mapped[str] = mapped_column(String, nullable=False)
-    user_id: Mapped[int] = mapped_column(nullable=False, unique=True)
+    user_id: Mapped[int] = mapped_column(BigInteger, nullable=False, unique=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(UTC))
 

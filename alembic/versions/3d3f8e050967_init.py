@@ -1,8 +1,8 @@
 """init
 
-Revision ID: e178252efdbe
+Revision ID: 3d3f8e050967
 Revises: 
-Create Date: 2025-07-24 18:25:32.322938
+Create Date: 2025-07-25 15:31:11.331772
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'e178252efdbe'
+revision: str = '3d3f8e050967'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -25,7 +25,7 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(), nullable=True),
     sa.Column('connection_id', sa.String(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.BigInteger(), nullable=False),
     sa.Column('is_active', sa.Boolean(), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),
     sa.PrimaryKeyConstraint('id'),
@@ -33,8 +33,8 @@ def upgrade() -> None:
     )
     op.create_table('chat',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('chat_id', sa.Integer(), nullable=False),
-    sa.Column('chat_with_user_id', sa.Integer(), nullable=False),
+    sa.Column('chat_id', sa.BigInteger(), nullable=False),
+    sa.Column('chat_with_user_id', sa.BigInteger(), nullable=False),
     sa.Column('account_id', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),
     sa.ForeignKeyConstraint(['account_id'], ['telegram_account.id'], ),
@@ -43,7 +43,7 @@ def upgrade() -> None:
     op.create_table('message',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('message_text', sa.String(), nullable=False),
-    sa.Column('message_id', sa.Integer(), nullable=False),
+    sa.Column('message_id', sa.BigInteger(), nullable=False),
     sa.Column('chat_id', sa.Integer(), nullable=False),
     sa.Column('sender', sa.String(), nullable=False),
     sa.Column('is_processed', sa.Boolean(), nullable=False),

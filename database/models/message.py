@@ -1,7 +1,7 @@
 from datetime import datetime, UTC
 from typing import TYPE_CHECKING, Optional
 
-from sqlalchemy import String, DateTime, ForeignKey
+from sqlalchemy import String, DateTime, ForeignKey, BigInteger
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from database.models import Base
 
@@ -14,7 +14,7 @@ class Message(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     message_text: Mapped[str] = mapped_column(String, nullable=False)
-    message_id: Mapped[int] = mapped_column(nullable=False)
+    message_id: Mapped[int] = mapped_column(BigInteger, nullable=False)
     chat_id: Mapped[int] = mapped_column(ForeignKey("chat.id"))
     sender: Mapped[str] = mapped_column(String, nullable=False)
     is_processed: Mapped[bool] = mapped_column(default=False)
