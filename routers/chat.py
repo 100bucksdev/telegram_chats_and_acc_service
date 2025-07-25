@@ -35,7 +35,7 @@ async def add_message(user_id: int, chat_id: int, payload: MessageIn, db: AsyncS
     chat_service = ChatService(db)
     message_service = MessageService(db)
 
-    account = await account_service.get_account_by_user_id(payload.user_id)
+    account = await account_service.get_account_by_user_id(user_id)
     if not account:
         raise HTTPException(status_code=404, detail="account_not_found")
 
