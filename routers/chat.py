@@ -30,7 +30,7 @@ async def add_chat_if_not_exist(user_id: int, chat_id: int = Body(...),chat_with
         return ChatRead.model_validate(chat)
 
 @chat_router.post("/{chat_id}/message", response_model=MessageRead)
-async def add_message(chat_id: int, payload: MessageIn, db: AsyncSession = Depends(get_db)) -> MessageRead:
+async def add_message(user_id: int, chat_id: int, payload: MessageIn, db: AsyncSession = Depends(get_db)) -> MessageRead:
     account_service = TelegramAccountService(db)
     chat_service = ChatService(db)
     message_service = MessageService(db)
