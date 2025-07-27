@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from fastapi.params import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -17,5 +17,17 @@ async def get_messages(chat_id: int, db: AsyncSession = Depends(get_db))-> List[
     chat = await chat_service.get_chat_by_chat_id(chat_id)
     service = MessageService(db)
     return [MessageRead.model_validate(message) for message in await service.get_unprocessed_messages(chat.id)]
+
+@message_router.post("/{chat_id}/mark-as-processed")
+async def mark_as_processed(chat_id: int, db: AsyncSession = Depends(get_db)):
+    chat_service = ChatService(db)
+    chat = await chat_service.get_chat_by_chat_id(chat_id)
+    if not chat:
+        raise HTTPException(status_code=404, detail="chat_not_found")
+    message_service = MessageService(db)
+    await message_service.make_messages_from_chat_processed(chat.id)
+    return {"detail": "success"}
+
+
 
 
